@@ -1,0 +1,152 @@
+---
+title: "[Youtube] Youtube Player API - 1"
+category: youtube
+tags: [youtube, ytplayer, ytplayer API]
+date: "2021-06-10"
+coverImage: /assets/blog/cover/youtube.jpg
+---
+
+# 🎬 Youtube Player API란?
+
+> 웹 사이트에 Youtube 동영상 플레이어를 렌더링하며 Javascript를 사용하여 제어할 수 있도록 도와주는 API  
+>  줄여서 YT.player라고도 합니다.
+
+<br>
+
+프로젝트를 진행하면서 `<video>` 태그가 아닌 Youtube 동영상을 가져오는 경우가 많다.  
+이런 경우 해당 API를 사용하여 재생, 일시정지 등 **다양한 컨트롤**이 가능하기 때문에, 소개해보려 합니다 ㅎㅎ
+
+# 🎬 Youtube를 렌더링하는 방법
+
+Youtube 동영상을 렌더링하는 방법은 총 2가지가 있습니다.  
+아래 두가지 모두를 소개하도록 하겠습니다~
+
+## 1️⃣`<iframe>` 태그 사용
+
+### 사용 방법
+
+```html
+// videoId는 load할 영상의 id값 <iframe src="https://www.youtube.com/embed/VIDEO_ID"></iframe>
+```
+
+### 특징
+
+1. 직접 API를 연결하지 않고, postMessage를 통하여 컨트롤합니다.
+2. 제어하기 위해선 아래 속성값이 필수
+
+```javascript
+// enablejsapi은 IFrame 또는 JavaScript Player API 호출
+// allow="autoplay;"는 jacascript로 제어시 재생할 수 있도록 허용
+<iframe src="https://www.youtube.com/embed/VIDEO_ID?enablejsapi=1" allow="autoplay;"></iframe>
+```
+
+3. Javascript로 제어하기 위해선 아래와 같은 callPlayer 함수 필요합니다.
+
+```javascript
+function callPlayer(frame_id, func, args) {
+  // jquery를 사용할 때
+  if (window.jQuery && frame_id instanceof jQuery) frame_id = frame_id.get(0).id;
+
+  const iframe = document.getElementById(frame_id);
+
+  //태그의 값이 iframe이 아닐 경우 iframe으로 변경
+  if (iframe && iframe.tagName.toUpperCase() != "IFRAME") {
+    iframe = iframe.getElementsByTagName("iframe")[0];
+  }
+
+  if (iframe) {
+    iframe.contentWindow.postMessage(
+      JSON.stringify({
+        event: "command",
+        func: func,
+        args: args || [],
+        id: frame_id,
+      }),
+      "*"
+    );
+  }
+}
+```
+
+### window.postMessage
+
+**_iframe이란_**
+
+> Inline Frame의 약자로, 현재 문서 안에 다른 HTML 페이지를 삽입하는 요소
+
+- window.postMessage를 이용하면 iframe 안의 HTML 페이지와 메세지를 주고 받을 수 있습니다. (통신이 가능해짐)
+
+```javascript
+targetWindow.postMessage(message, targetOrigin);
+```
+
+1. **targetWindow** : 메세지를 전달 받을 window의 참조 (postMessage를 보낼 대상)
+2. **message** : **targetWindow**에 보내질 데이터로 String으로 한정
+3. **targetOrigin** : 메세지를 전송받을 대상의 도메인, ,특정 도메인이 아니라면 \*로 지정
+
+<br>
+<br>
+
+## 2️⃣ Youtube Player API 사용
+
+### 사용 방법
+
+```html
+<div id="ytplayer"></div>
+```
+
+```javascript
+//Iframe Player API를 비동기식으로 load
+var tag = document.createElement("script");
+tag.src = "https://www.youtube.com/player_api";
+var firstScriptTag = document.getElementsByTagName("script")[0];
+firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+var player;
+
+//Iframe Player API가 load된 후 실행
+function onYouTubePlayerAPIReady() {
+  //ytplayer는 id 값을 의미
+  player = new YT.Player("ytplayer", {
+    //videoId는 load할 영상의 id값
+    videoId: "ZqdCFnEsEVU",
+  });
+}
+```
+
+### 특징
+
+1. div 태그는 youtube 동영상 플레이어가 삽입될 위치를 식별합니다.
+2. API는 div 태그를 iframe 태그로 대체하며 또는 직접 iframe 요소를 삽입할 수 있습니다.
+
+# 🎬 2가지 방법 비교
+
+## 1. 속도
+
+개발자도구의 Network에서 **Slow 3G** 환경에서 테스트를 해보았을 때
+
+![속도 비교](/posts/youtube/youtube1.png)
+
+첫번째는 `<iframe>` 태그 두번째는 IFrame Player API을 사용한 것으로 로딩 속도는 같습니다.
+
+## 2. 자유도
+
+`<iframe>`를 사용하는 것과 Youtube Player API 모두 결국은 Youtube Player API를 사용하여 작동되지만
+
+`<iframe>`은 postMessage를 사용하여 API를 접근하는 방식이기때문에
+직접적으로 IFrame Player API를 사용하는것보다 자유도가 떨어질 수 있습니다.
+
+## 3. 결론
+
+결국은 같은 API를 사용하는데 어떤 방식으로 가지고 오냐의 차이이기 때문에
+사용자가 편한대로 사용하시면 될 것 같습니다.
+
+저는 상황에 따라 다르게 사용할 것같은데
+
+첫번째 Javascript를 사용하지 않고 영상만 불러온다면 `<iframe>`tag를 사용하는게 더욱 간단하며
+
+두번째 영상의 제어가 필요하다면 API의 다양한 옵션들을 사용하기 위하여 Youtube Player API를 불러오는게 더 좋을 것 같습니다.
+
+http://tm.pages.hivelab.co.kr/study/pureum/learn_media/chapter01.html
+
+<br><br><br>

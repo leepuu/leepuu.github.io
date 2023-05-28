@@ -1,0 +1,273 @@
+---
+title: "[Youtube] Youtube Player API - 2"
+category: youtube
+tags: [youtube, ytplayer, ytplayer API]
+date: "2021-06-10"
+coverImage: /assets/blog/cover/youtube.jpg
+---
+
+# 🎬 다중 유튜브 삽입
+
+## 1️⃣`<iframe>` 태그 사용
+
+### HTML
+
+```html
+<ul class="video_list">
+  <li class="item">
+    <div class="video" id="video1">
+      <iframe src="https://www.youtube.com/embed/Gvq4bawFRiU?enablejsapi=1" frameborder="0" allow="autoplay;" allowfullscreen></iframe>
+    </div>
+  </li>
+  <li class="item">
+    <div class="video" id="video2">
+      <iframe src="https://www.youtube.com/embed/KqJ_AeSdBRM?enablejsapi=1" frameborder="0" allow="autoplay;" allowfullscreen></iframe>
+    </div>
+  </li>
+</ul>
+```
+
+- js로 컨트롤(재생, 일시정지, 정지 등) 하기 위해선 부모값에 아이디는 필수
+- id값은 꼭 html 이 아니더라도 JS로 삽입 가능합니다.
+
+### JavaScript
+
+```javascript
+// postMessage로 youtube API 데이터 연결
+function callPlayer(frame_id, func, args) {
+  if (window.jQuery && frame_id instanceof jQuery) frame_id = frame_id.get(0).id;
+
+  var iframe = document.getElementById(frame_id);
+
+  if (iframe && iframe.tagName.toUpperCase() != "IFRAME") {
+    iframe = iframe.getElementsByTagName("iframe")[0];
+  }
+
+  if (iframe) {
+    iframe.contentWindow.postMessage(
+      JSON.stringify({
+        event: "command",
+        func: func,
+        args: args || [],
+        id: frame_id,
+      }),
+      "*"
+    );
+  }
+}
+
+//video1 제어
+callPlayer("video1", "playVideo");
+
+//video2 제어
+callPlayer("video2", "playVideo");
+```
+
+## 2️⃣ Youtube Player API 사용
+
+Youtube Plyer API는 총 4가지 버전이 있습니다.ㅎㅎ
+
+### Ver1. 나열
+
+단순 나열하여 선언하는 방식
+
+### HTML
+
+```html
+<ul class="video_list">
+  <li class="item">
+    <div class="video">
+      <div class="youtube" id="youtube1"></div>
+    </div>
+  </li>
+  <li class="item">
+    <div class="video">
+      <div class="youtube" id="youtube2"></div>
+    </div>
+  </li>
+</ul>
+```
+
+### Javascript
+
+```javascript
+// Iframe Player API Data
+var tag = document.createElement("script");
+tag.src = "https://www.youtube.com/player_api";
+var firstScriptTag = document.getElementsByTagName("script")[0];
+firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+var player1, player2;
+
+//video ID
+var playerLink1 = "Gvq4bawFRiU",
+  playerLink2 = "Hm3wHd3JL2E";
+
+//Run after Iframe Player API is loaded
+function onYouTubePlayerAPIReady() {
+  player1 = new YT.Player("youtube1", {
+    videoId: playerLink1,
+  });
+
+  player2 = new YT.Player("youtube2", {
+    videoId: playerLink2,
+  });
+}
+```
+
+<br><br><br>
+
+### Ver2. 베열혈
+
+배열을 사용하여 선언하는 방식
+
+### HTML
+
+```html
+<ul class="video_list">
+  <li class="item">
+    <div class="video">
+      <div class="youtube" id="youtube0"></div>
+    </div>
+  </li>
+  <li class="item">
+    <div class="video">
+      <div class="youtube" id="youtube1"></div>
+    </div>
+  </li>
+</ul>
+```
+
+### Javascript
+
+```javascript
+// Iframe Player API Data
+var tag = document.createElement("script");
+tag.src = "https://www.youtube.com/player_api";
+var firstScriptTag = document.getElementsByTagName("script")[0];
+firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+var youtube = document.querySelectorAll(".youtube");
+
+//Video Id
+var link = ["Gvq4bawFRiU", "Hm3wHd3JL2E"];
+var player = [];
+
+function onYouTubePlayerAPIReady() {
+  for (var i = 0; i < youtube.length; i++) {
+    player[i] = new YT.Player("youtube" + [i], {
+      videoId: link[i],
+    });
+  }
+}
+
+//#youtube1 Control
+player[0].playVideo();
+
+//#youtube2 Control
+player[1].playVideo();
+```
+
+<br><br><br>
+
+### Ver3. data 속성 사용
+
+html 내 data 속성을 사용하여 유튜브의 id 값을 선언합니다.
+
+### HTML
+
+```html
+<ul class="video_list">
+  <li class="item">
+    <div class="video">
+      <div class="youtube" id="youtube0" data-link="Gvq4bawFRiU"></div>
+    </div>
+  </li>
+  <li class="item">
+    <div class="video">
+      <div class="youtube" id="youtube1" data-link="Hm3wHd3JL2E"></div>
+    </div>
+  </li>
+</ul>
+```
+
+### Javascript
+
+```javascript
+// Iframe Player API Data
+var tag = document.createElement("script");
+tag.src = "https://www.youtube.com/player_api";
+var firstScriptTag = document.getElementsByTagName("script")[0];
+firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+var youtube = document.querySelectorAll(".youtube");
+var player = [];
+
+function onYouTubePlayerAPIReady() {
+  youtube.forEach((item, index) => {
+    player[index] = new YT.Player("youtube" + [index], {
+      videoId: item.getAttribute("data-link"),
+    });
+  });
+}
+
+//#youtube1 Control
+player[0].playVideo();
+
+//#youtube2 Control
+player[1].playVideo();
+```
+
+- js로 컨트롤(재생, 일시정지, 정지 등) 하기 위해선 변수명이 달라야합니다.
+
+<br><br><br>
+
+### Ver4. data 속성 사용, id 선언
+
+ver3의 응용버전으로, id값을 html에 직접 선언하지 않고 js로 id값을 지정합니다.
+
+### HTML
+
+```html
+<ul class="video_list">
+  <li class="item">
+    <div class="video">
+      <div class="youtube" data-link="Gvq4bawFRiU"></div>
+    </div>
+  </li>
+  <li class="item">
+    <div class="video">
+      <div class="youtube" data-link="Hm3wHd3JL2E"></div>
+    </div>
+  </li>
+</ul>
+```
+
+### Javascript
+
+```javascript
+// Iframe Player API Data
+var tag = document.createElement("script");
+tag.src = "https://www.youtube.com/player_api";
+var firstScriptTag = document.getElementsByTagName("script")[0];
+firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+var youtube = document.querySelectorAll(".youtube");
+var player = [];
+
+function onYouTubePlayerAPIReady() {
+  youtube.forEach((item, index) => {
+    item.setAttribute("id", "youtube" + index);
+
+    player[index] = new YT.Player("youtube" + [index], {
+      videoId: item.getAttribute("data-link"),
+    });
+  });
+}
+
+//#youtube1 Control
+player[0].playVideo();
+
+//#youtube2 Control
+player[1].playVideo();
+```

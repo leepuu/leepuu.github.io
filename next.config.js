@@ -1,3 +1,10 @@
 const nextConfig = {
-  basePath: "/blog",
+  basePath: "/",
+}
+
+module.exports = {
+  images: {
+      loader: 'akamai',
+      path: '/',
+  }
 }

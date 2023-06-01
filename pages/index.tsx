@@ -1,18 +1,17 @@
 import Container from "components/Container";
-import MoreStories from "../components/more-stories";
 import Intro from "../components/Intro";
 import Layout from "components/Layout";
 import { getAllPosts } from "../lib/api";
 import Head from "next/head";
-import { CMS_NAME } from "../lib/constants";
-import Post from "../interfaces/post";
+import Post from "interfaces/post";
+import PostList from "components/PostList";
 
 type Props = {
   allPosts: Post[];
 };
 
 export default function Index({ allPosts }: Props) {
-  const morePosts = allPosts.slice(1);
+  const postList = allPosts.slice(1);
   return (
     <>
       <Layout>
@@ -21,7 +20,7 @@ export default function Index({ allPosts }: Props) {
         </Head>
         <Container>
           <Intro />
-          {morePosts.length > 0 && <MoreStories posts={morePosts} />}
+          {postList.length > 0 && <PostList posts={postList} />}
         </Container>
       </Layout>
     </>

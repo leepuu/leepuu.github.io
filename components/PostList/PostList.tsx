@@ -5,7 +5,7 @@ type Props = {
   posts: Post[];
 };
 
-const MoreStories = ({ posts }: Props) => {
+const PostList = ({ posts }: Props) => {
   return (
     <section>
       <div className="border-t border-slate-200">
@@ -17,4 +17,4 @@ const MoreStories = ({ posts }: Props) => {
   );
 };
 
-export default MoreStories;
+export default PostList;

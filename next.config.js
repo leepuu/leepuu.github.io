@@ -1,10 +1,12 @@
 const nextConfig = {
   basePath: "/",
-}
+  images: {
+    unoptimized: true,
+  },
+};
 
 module.exports = {
   images: {
-      loader: 'akamai',
-      path: '/',
-  }
-}
+    unoptimized: true,
+  },
+};

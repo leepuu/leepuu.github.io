@@ -1,5 +1,5 @@
-import DateFormatter from "components/DateFormatter/DateFormatter";
-import CoverImage from "components/cover-image";
+import DateFormatter from "components/DateFormatter";
+import CoverImage from "components/CoverImage";
 import markdownStyles from "./markdown-styles.module.scss";
 
 type Props = {

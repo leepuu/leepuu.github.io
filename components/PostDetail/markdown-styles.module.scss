@@ -1,5 +1,5 @@
 .markdown {
-  @apply text-lg leading-relaxed text-slate-900 break-all ;
+  @apply text-lg leading-relaxed text-slate-900 break-all;
 }
 
 .markdown ul,
@@ -82,19 +82,19 @@
 .markdown ul {
   list-style-type: disc;
   @apply pl-5 my-4;
-  ul{
+  ul {
     @apply mt-0;
   }
 }
-.markdown ol{
-  counter-reset: list;   
+.markdown ol {
+  counter-reset: list;
   @apply pl-5 my-4;
-  & > li{
+  & > li {
     counter-increment: list;
     @apply relative;
-    &:before{
+    &:before {
       @apply absolute -left-5;
-      content: counter(list)'.';
+      content: counter(list) ".";
     }
   }
 }
@@ -116,51 +116,68 @@
   padding: 0;
 }
 
-.markdown div[data-rehype-pretty-code-fragment]{
+.markdown div[data-rehype-pretty-code-fragment] {
   @apply rounded-lg  overflow-hidden my-5;
-  pre{
+  pre {
     @apply px-4 py-3.5 text-sm leading-5 overflow-x-auto;
   }
 }
 
-.markdown hr{
+.markdown hr {
   @apply my-12;
 }
 
-.markdown a{
+.markdown a {
   @apply font-semibold border-b border-blue-400 hover:border-b-2 transition-all;
 }
 
-.markdown blockquote{
+.markdown blockquote {
   @apply pl-5 border-l-4 border-blue-400 italic;
 }
 
-.markdown table{
+.markdown table {
   @apply text-left w-full;
-  tr{
+  tr {
     @apply border-blue-100 border-b;
   }
-  th{
+  th {
     @apply text-sm pb-2 px-2;
-    &:first-of-type{
+    &:first-of-type {
       @apply pl-0;
     }
   }
-  td{
+  td {
     @apply text-sm py-2 px-2;
-    &:first-of-type{
+    &:first-of-type {
       @apply pl-0;
     }
   }
-  tbody{
-    tr{
+  tbody {
+    tr {
       @apply border-slate-100;
     }
   }
 }
 
 .markdown {
-  :global(.point){
+  :global(.point) {
     @apply text-blue-400;
+  }
+  :global(.alert) {
+    @apply bg-yellow-50 py-4 pr-4 pl-12 rounded-md relative my-5;
+    &:before {
+      @apply w-5 h-5 block absolute top-4 left-4;
+      background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMCAyMCIgZmlsbD0iI0ZBQ0MxNSIgYXJpYS1oaWRkZW49InRydWUiIGNsYXNzPSJudSBydyBiYWciPjxwYXRoIGZpbGwtcnVsZT0iZXZlbm9kZCIgZD0iTTguNDg1IDIuNDk1Yy42NzMtMS4xNjcgMi4zNTctMS4xNjcgMy4wMyAwbDYuMjggMTAuODc1Yy42NzMgMS4xNjctLjE3IDIuNjI1LTEuNTE2IDIuNjI1SDMuNzJjLTEuMzQ3IDAtMi4xODktMS40NTgtMS41MTUtMi42MjVMOC40ODUgMi40OTV6TTEwIDVhLjc1Ljc1IDAgMDEuNzUuNzV2My41YS43NS43NSAwIDAxLTEuNSAwdi0zLjVBLjc1Ljc1IDAgMDExMCA1em0wIDlhMSAxIDAgMTAwLTIgMSAxIDAgMDAwIDJ6IiBjbGlwLXJ1bGU9ImV2ZW5vZGQiPjwvcGF0aD48L3N2Zz4=");
+      content: "";
+    }
+    h6 {
+      @apply text-yellow-800;
+    }
+    * {
+      @apply text-yellow-700 text-sm;
+      &:last-child {
+        @apply mb-0;
+      }
+    }
   }
 }

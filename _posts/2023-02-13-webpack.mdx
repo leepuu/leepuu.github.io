@@ -1,0 +1,275 @@
+---
+title: Webpack의 기초
+category: node
+tags: [Node.js, npm, package.json]
+date: "2023-02-13"
+---
+
+# Webpack이란?
+
+> 의존 관계에 있는 **모듈들을 하나의 자바스크립트 파일로 번들링하는 모듈 번들러**로 최신 프런트엔드 프레임워크에서 가장 많이 사용됩니다.
+
+
+<div class="alert">
+<strong>모듈 번들러?</strong>
+<p>웹 애플리케이션을 구성하는 자원(HTML, CSS, Javascript, img 등)을 모두 각각의 모듈로 보고 이를 조합해서 하나의 결과물을 만드는 도구</p>
+</div>
+
+## 모듈
+
+모듈이란 **파일 하나하나, 특정 기능을 갖는 작은 코드 단위**를 의미합니다.
+
+- **모듈이 필요한 이유?**
+    
+    브라우저 내에서 자바스크립트는 여러 파일로 분리해도 하나의 파일 안에 있는 것처럼 전역(window)을 공유합니다. 
+    그래서 어떤 파일을 먼저 실행할지가 중요한데, 프로젝트의 규모가 커지면 오류를 찾기도 어렵고 하나의 파일에서 작성한 것과 다르지 않기 때문에 **파일 단위로 변수를 관리하기 위해 모듈로 분리**합니다. 
+    
+    추가로 모듈을 사용하면 재사용성과 유지 보수에 용이하기 때문에 사용됩니다.
+    
+    
+
+```jsx
+function sum(a, b){
+	return a + b
+}
+
+function minus(a, b){
+	return a - b
+}
+
+export { sum, minus }
+```
+
+위 자바스크립트는 sum과 minus 2가지 기능을 가지고 있는 모듈입니다.
+이처럼 **성격이 비슷한 기능들을 하나의 의미 있는 파일로 관리하면 모듈**이 됩니다.
+
+- **웹팩에서 모듈은?**
+    
+    웹팩에서 지칭하는 모듈은 위와 같이 자바스크립트 모듈에만 국한되지 않고 Webpack으로 **빌드할 때 사용하는 코드를 포함한 모든 리소스**를 뜻합니다. 예를 들어 HTML, CSS, Javascript, Images, Font 등 많은 모듈이 있습니다.
+    
+
+<br>
+ 
+## 모듈 번들링
+
+번들링(bundling)은 뜻 그대로 “**어떤 것을 묶는다**” 라고 생각하시면 됩니다.
+이전에 설명했던 모듈을 포함한 **몇십, 몇백개의 자원들을 하나의 파일로 병합 및 압축 해주는 동작**을 모듈 번들링이라고 합니다.
+
+<div class="alert">
+<p>빌드, 번들링, 변환 이 세 단어 모두 같은 의미</p>
+</div>
+
+![webpack](/assets/blog/posts/node/webpack/img.png)
+
+[**대표적인 모듈 번들러**](https://npmtrends.com/browserify-vs-esbuild-vs-parcel-vs-requirejs-vs-rollup-vs-snowpack-vs-vite-vs-webpack) 
+
+## 그래서 왜 webpack을 사용하나요? 😯
+
+### 1. ****파일 단위의 자바스크립트 모듈 관리****
+
+자바스크립트의 변수 유효 범위는 전역 변수이기 때문에 다른 파일에서 중복 선언을 하거나 재 선언을 하면 변수의 값이 변경되게 됩니다. 
+
+이처럼 자바스크립트를 파일 단위로 관리하기 위해 이전에는 [AMD](https://joshua1988.github.io/webpack-guide/motivation/why-webpack.html)와 **[Common.js](https://joshua1988.github.io/webpack-guide/motivation/why-webpack.html)** 라이브러리를 사용하였었는데, **webpack을 사용하면서 ES6의 [import](https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Statements/import)와 [export](https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Statements/export) 문법을 사용**할 수 있게 되었습니다.
+
+### 2. ****웹 개발 작업 자동화 도구****
+
+과거 웹을 제작할 때 일일히 편집기에서 수정한 뒤 브라우저에서 새로고침을 해야 확인이 가능하였는데, 이를 **webpack에서는 자동화해주어 편리하게 제작**이 가능합니다.
+
+추가로 아래 일들도 같이 자동화 합니다.
+
+- HTML, CSS, JS 압축
+- 이미지 압축
+- CSS 전처리기 변환
+
+### 3. ****웹 애플리케이션의 빠른 로딩 속도와 높은 성능****
+
+webpack에서 웹 사이트 로딩 속도를 높이기 위해 브라우저에서 서버로 요청하는 파일 숫자를 줄이기 위해 파일을 압축하거나 병합합니다.
+
+뿐만 아니라 초기 페이지 로딩 속도를 높이기 위해 나중에 필요한 자원들은 나중에 요청하는 레이지 로딩이 등장합니다.
+
+**webpack은 기본적으로 필요한 자원은 미리 로딩하는게 아니라 필요한 그 때 그 때 요청**합니다.
+
+<br>
+
+## Webpack과 Gulp의 차이는 뭘까?
+
+- Webpack과 Gulp는 모두 build tool 입니다.
+
+### **Webpack**
+
+<div class="alert">
+<strong>Package Bundler</strong>
+<p> 종속성을 가진 애플리케이션 모듈을 정적인 소스로 재생산하는 것으로 **어떤 소스들을 하나의 패키지화** 하는 것을 의미한다.</p>
+</div>
+
+- 다음 실행
+    - Loader를 통해 Javascript, Image file, Font, CSS, SCSS 등과 같은 자산을 하나의 모듈로 취급
+    - Bundle에 대한 압축 및 난독화, 소스 맵에 대한 옵션을 제공
+    - Plug-In 사용을 통한 사용자 정의 기능 수행
+    
+
+### Gulp
+<div class="alert">
+<strong>task runner</strong>
+<p> 반복 가능한 활동을 자동화하는 것으로 쉽게 말해 **미리 정의해 놓은 어떠한 작업을 실행**하는 것을 의미한다.</p>
+</div>
+
+- 다음 실행
+    - JavaScript 테스트 실행 및 파일 병합
+    - Sass 컴파일
+    - CSS/HTML/JS 압축
+    - • Node stream 기반으로 빠른 빌드 속도를 제공
+
+Google Trends에 따르면 Webpack이 더 인기가 많다.
+
+[https://trends.google.co.kr/trends/explore?cat=31&date=today 5-y&q=Webpack,Gulp](https://trends.google.co.kr/trends/explore?cat=31&date=today%205-y&q=Webpack,Gulp)
+
+![google trends](/assets/blog/posts/node/webpack/img2.png)
+
+<hr>
+
+# 설치하기
+
+- Webpack의 최신 버전은 5이며 **`node 10.13.0`** 이상 실행됩니다.
+
+1. **빈 디렉토리에서 `package.json` 생성하기**
+    
+    ```bash
+    $ npm init
+    ```
+    
+2. **해당 폴더에 webpack 설치하기**
+    
+    ```bash
+    $ npm install --save-dev webpack webpack-cli
+    ```
+    
+3. **src폴더 내 `index.js` 생성 및 webpack 실행**
+    
+    ```bash
+    $ npx webpack --mode development
+    ```
+    
+    ![webpack install](/assets/blog/posts/node/webpack/img3.png)
+
+    
+<hr> 
+
+# Webpack의 기본 설정
+
+## 설정 파일 생성 및 사용
+
+웹팩에서 디폴트로 인지하는 설정 파일 이름인 `webpack.config.js`로 빈 설정 파일을 하나 생성합니다.
+
+webpack.config.js 파일에서 옵션을 설정하여 내용에 따라 번들링을 진행합니다.
+
+<br>
+
+## 설정 옵션
+
+### Entry
+
+- `entry`은 모듈의 첫 시작점으로 웹팩에서 웹 자원을 변환하기 위해 필요한 최초 진입점이자 자바스크립트 파일 경로입니다.
+- `entry`에 설정된 파일에 따라 포함된 모듈과 라이브러리가 번들링 됩니다.
+- `entry`의 기본 값은 ‘./src/index.js’이며 변경 가능합니다.
+
+**webpack.config.js**
+
+```jsx
+module.exports = {
+  entry: './src/index.js'
+}
+```
+
+<hr>
+
+### Output
+
+- `output`은 번들링 된 파일 위치와 이름을 지정합니다.
+    - **filename**: 웹팩으로 빌드한 파일의 이름
+    - **path**: 웹팩으로 빌드한 파일의 경로
+        
+
+
+**webpack.config.js**
+
+```jsx
+
+const path = require('path');
+
+module.exports = {
+  entry: './src/index.js',
+  output: {
+    path: path.resolve(__dirname, 'dist'),
+    filename: 'main.js'
+  }
+};
+```
+
+<hr>
+
+### Loader
+
+- Webpack은 기본적으로 Javascript만 인식하는데, `Loader` 는 Javascript가 아닌 다른 웹 자원(html, css, image 등)들도 변환해주는 속성입니다.
+- 모듈 예시
+    - ES2015 import
+    - CommonJS의 require()
+    - AMD define, require
+    - CSS/Sass/Less @import
+    - 스타일시트 url()
+    - HTML의 <img src>
+
+**CSS-loader 예시**
+
+1. css loader 설치
+
+```bash
+$ npm i css-loader -D
+```
+
+1. css 생성 후 index.js에 import 구문 사용하여 불러오기
+
+```bash
+// index.js
+import './css/style.css'
+```
+
+1. **webpack.config.js**
+
+```bash
+module.exports = {
+  entry: './app.js',
+  output: {
+    filename: 'bundle.js'
+  },
+  **module: {
+    rules: [
+      {
+        test: /\.css$/,
+        use: ['css-loader']
+      }
+    ]
+  }**
+}
+```
+
+<hr>
+
+
+### Plugin
+
+- plugin은 웹팩의 기본적인 동작에 추가적인 기능을 제공하는 속성입니다.
+
+**webpack.config.js**
+
+```jsx
+module.exports = {
+  plugins: []
+}
+```
+
+<hr> 
+
+# 마무리
+지금까지 webpack은 CRA에 있는 그대로 사용했지 직접 뜯어본 건 처음이다... 근데 생각보다 어려워서 깜짝놀랬닷...  
+더 공부해서 완벽히 이해하는 그날까지..ㅎ...

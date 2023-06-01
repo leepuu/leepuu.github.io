@@ -82,6 +82,9 @@
 .markdown ul {
   list-style-type: disc;
   @apply pl-5 my-4;
+  ul{
+    @apply mt-0;
+  }
 }
 .markdown ol{
   counter-reset: list;   
@@ -153,5 +156,11 @@
     tr{
       @apply border-slate-100;
     }
+  }
+}
+
+.markdown {
+  :global(.point){
+    @apply text-blue-400;
   }
 }

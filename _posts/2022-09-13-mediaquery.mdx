@@ -1,0 +1,119 @@
+---
+title: Media Query로 PC와 Mobile 구분하기
+category: css
+tags: [css]
+date: "2022-09-13"
+---
+
+
+> 💡 기존 브라우저의 창 크기에 따라 PC와 Mobile을 구분하였지만,   
+> 가끔 창 크기가 아닌 사용자의 디바이스가 PC인지 Mobile인지 구분하는 방법!
+
+# Hover
+
+- `Hover` 미디어 기능은 기본 포인팅 장치로 페이지의 요소에 호버를 할 수 있는지 여부를 판단
+    - PC에서는 hover가 가능하지만 mobile에서는 불가능
+- 기존 CSS의 `:hover`기능은 hover 여부에 상관 없이 호버가 발생하는 경우 스타일을 정의하지만, Media Feature의 `hover` 기능은 **장치상 호버가 발생 가능**한지 판단
+
+## value
+
+- **none**
+    - 주 포인팅 장치가 없는 경우
+    - 주 포인팅 장치가 호버링를 지원하지 않는 경우
+    - 편리하게 호버링 할 수 없는 경우
+        - 꾹 누르는 동작이 호버로 인식되는 터치 스크린이나 일반적이지 않은 방식의 호버
+- **hover**
+    - 주 포인팅 장치가 편리하게 hover 하는 경우
+    
+
+<div class="alert">
+<strong>터치 스크린이 주 포인팅 장치이지만 마우스를 동시에 지원하는 경우</strong>
+<p>비록 마우스 통해서 hover가 가능하지만 주 포인팅은 터치 스크린이므로 hover: none이 적용</p>
+</div>
+
+<hr>
+
+# Pointer
+
+- `pointer`는 포인팅 장치(마우스, 터치패드 등등) 유무는 물론 구체적인 포인팅 장치는 판별
+
+## value
+
+- **none**
+    - 기본 포인팅 장치가 없는 경우
+- **coarse**
+    - 기본 포인팅 장치의 **정확도가 제한**되었지만 포인팅은 가능
+    - 예로 터치 스크린, 모션 감지 센서 등
+- **fine**
+    - 기본 포인팅 장치가 **정확한 포인팅 장치**인경우
+    - 예를 들어 마우스, 터치패드, 타블렛 펜 등
+
+<hr>
+
+# Hover & Pointer 조합
+
+- `hover`와 `pointer`쿼리를 조합하면 트랙패드, 마우스 등 **디바이스 별 스타일링** 가능
+
+|  | pointer: none | pointer: coarse | pointer: fine |
+| --- | --- | --- | --- |
+| ***hover: none*** | 키보드 | 스마트폰, 터치 스크린 | 타블렛 펜 |
+| **hover: hover** |  | 닌텐도 will 컨트롤러, 키넥트 | 마우스, 터치패드 |
+
+```scss
+@media (hover: none) and (pointer: coarse) {
+	/* smartphones, touchscreens */    
+}
+
+@media (hover: none) and (pointer: fine) {
+	/* stylus-based screens */
+}
+
+@media (hover: hover) and (pointer: coarse) {
+	/* Nintendo Wii controller, Microsoft Kinect */
+}
+
+@media (hover: hover) and (pointer: fine) {
+  /* mouse, touch pad */
+}
+```
+
+<hr>
+
+# any-hover, any-pointer
+
+- `hover`와 `pointer`가 기본 장치만으로 판단을 한다면, `any-`쿼리는 모든 장치를 확인
+- 여러 포인트 장치 중 하나라도 만족한다면 적용
+
+<hr>
+
+# Example
+
+```scss
+@media (hover: hover) {
+  /* hover 가능한 경우 : PC */
+}
+
+@media (hover: none) { 
+ /* hover 불가능한 경우 : mobile */
+}
+
+@media (pointer: coarse){
+	/* 포인팅 장치가 있음(터치스크린, 모션 감지 센서) */
+}
+
+@media (pointer: fine){
+	/* 포인팅 장치가 있음(마우스, 터치패드, 타블렛 펜) */
+}
+```
+
+<p class="codepen" data-height="300" data-default-tab="html,result" data-slug-hash="XWqpJjR" data-user="lprrrr" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/lprrrr/pen/XWqpJjR">
+  Media Query - Hover &amp; Pointer</a> by leepureum (<a href="https://codepen.io/lprrrr">@lprrrr</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+<script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
+
+<hr>
+
+# 마무리
+기존에는 해상도를 통해서만 디바이스를 구별했었는데, 해당 미디어쿼리를 사용하여 진짜 디바이스 기기인지 확인 할 수 있어 유용할 것 같다!!!

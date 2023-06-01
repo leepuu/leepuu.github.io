@@ -1,0 +1,39 @@
+---
+title: dependencies vs. devDependencies
+category: node
+tags: [Node.js, npm, package.json, dependencies, devDependencies]
+date: "2023-02-14"
+---
+
+> package.json에 있는 dependencies와 devDependencies의 차이
+# dependencies
+- 실제 런타임에서 사용되는 라이브러리
+- 배포할 때 포함
+- axios, react, vue 등
+
+## 설치 방법
+
+```bash
+$ npm install 라이브러리명
+```
+
+<hr>
+
+# devDependencies
+
+- 개발자가 **개발할 때만 필요한 라이브러리**로, 로컬 개발 또는 테스트에 사용
+- 배포할 때 포함되지 않음
+- 컴파일 도구(gulp, webpack, …), babel, eslint, prettier 등
+
+## 설치 방법
+
+```bash
+$ npm install 라이브러리명 --save-dev
+$ npm install 라이브러리명 -D
+```
+
+<hr>
+
+# 구분하는 이유
+
+- 빌드 시간 및 어플리케이션 크기를 줄이기 위함

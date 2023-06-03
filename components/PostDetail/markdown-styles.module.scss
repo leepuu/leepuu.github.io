@@ -1,5 +1,5 @@
 .markdown {
-  @apply text-lg leading-relaxed text-slate-900 break-all;
+  @apply text-lg leading-relaxed text-slate-900 break-keep;
 }
 
 .markdown ul,
@@ -161,7 +161,7 @@
 
 .markdown {
   :global(.point) {
-    @apply text-blue-400;
+    @apply text-blue-400 font-bold;
   }
   :global(.alert) {
     @apply bg-yellow-50 py-4 pr-4 pl-12 rounded-md relative my-5;
@@ -171,10 +171,10 @@
       content: "";
     }
     h6 {
-      @apply text-yellow-800;
+      @apply text-yellow-800 mb-2 mt-0;
     }
     * {
-      @apply text-yellow-700 text-sm;
+      @apply text-yellow-700 text-sm mt-2;
       &:last-child {
         @apply mb-0;
       }

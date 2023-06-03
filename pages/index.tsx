@@ -12,6 +12,7 @@ type Props = {
 
 export default function Index({ allPosts }: Props) {
   const postList = allPosts.slice(1);
+
   return (
     <>
       <Layout>

@@ -45,3 +45,21 @@ export function getAllPosts(fields: string[] = []) {
     .sort((post1, post2) => (post1.date > post2.date ? -1 : 1));
   return posts;
 }
+
+let tempStorage = [];
+
+export function getPostByCate(slug: string, fields: string[] = []) {
+  const realSlug = slug.replace(/\.mdx$/, "");
+  const fullPath = join(postsDirectory, `${realSlug}.mdx`);
+  const fileContents = fs.readFileSync(fullPath, "utf8");
+  const { data: frontmatter } = matter(fileContents);
+  if (frontmatter.draft === false) {
+    frontmatter.categories.map((category) => {
+      console.log(category);
+      // let slug = slugify(category);
+      // tempStorage.push({ params: { slug } });
+    });
+  } else {
+    return null;
+  }
+}

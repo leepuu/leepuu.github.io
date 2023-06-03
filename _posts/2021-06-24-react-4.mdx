@@ -11,7 +11,7 @@ coverImage: /assets/blog/cover/react.jpg
 컴포넌트를 스타일링하는 방법은 매우 다양한데,  
 이 포스팅에서는 가장 기본적인 CSS로 시작하여 총 **4**가지 방법을 소개하겠따~~~
 
-<br><br>
+---
 
 # 🎨 CSS
 
@@ -50,12 +50,10 @@ function App() {
 }
 ```
 
-<br>
-
 CSS를 사용할 때는 **클래스가 중복되지 않게** 해야 한다.  
 여러 개의 컴포넌트들을 웹팩을 통해 합쳐지게 되는데 그 과정에서 스타일 파일도 겹치지 때문에 주의해야 한다.
 
-<br><br><br>
+---
 
 # 🎨 CSS Module
 
@@ -98,21 +96,19 @@ function App() {
 export default App;
 ```
 
-<br>
-
 위 `List.module.css` 같이 모듈화한 스타일 파일을 객체로 받아와 태그에 `className={styles.[클래스명]}` 지정해준다.  
 그러면 아래와 같이 고유한 클래스명이 지정되어 중첩되지 않는다.
 
-![모듈 클래스](/posts/react/react-4/module-1.jpg)
+![모듈 클래스](/assets/blog/posts/react/react-4/module-1.jpg)
 
-<br><br><br>
+---
 
 # 🎨 Sass
 
 Sass는 CSS 전처기로 복잡한 작업을 쉽게 할 수 있다.  
 코드의 재사용, 가독성을 높여주어 유지보수에서 유용하다.
 
-자세한 사항은 이 [포스팅](../2021-01-15-Sass-1)을 참고하면 됩니당~
+자세한 사항은 이 [포스팅](/posts/2021-01-15-Sass-1)을 참고하면 됩니당~
 
 ## 시작하기
 
@@ -154,22 +150,18 @@ function App() {
 }
 ```
 
-<br>
-
 css module과 마찬가지로 파일명 뒤에 `[파일 이름].module.scss`로 변경하면 모듈화 가능
 
-<br><br><br>
+---
 
 # 🎨 styled-components
 
 지금까지 소개했던 것 중 가장 생소한 방법으로, **CSS-in-JS**방식으로 Javascript 파일 안에 스타일을 선언하는 방식이다.  
 CSS-in-JS 라이브러리는 다양한 종류가 있는데 그 중 styled-components는 개발자들이 제일 선호하는 라이브러리다.
 
-![모듈 클래스](/posts/react/react-4/styled-1.png)
+![모듈 클래스](/assets/blog/posts/react/react-4/styled-1.png)
 
 <p class="sub_txt">https://www.npmtrends.com/aphrodite-vs-emotion-vs-glamorous-vs-jss-vs-radium-vs-styled-components-vs-styletron</p>
-
-<br>
 
 ## 시작하기
 
@@ -178,8 +170,6 @@ CSS-in-JS 라이브러리는 다양한 종류가 있는데 그 중 styled-compon
 ```bash
 $ npm install styled-components
 ```
-
-<br><br>
 
 App 컴포넌트 상단에 import로 styled-components를 선언한 뒤,
 
@@ -198,8 +188,6 @@ function App() {
   );
 }
 ```
-
-<br><br>
 
 스타일 선언한 첫번째 컴포넌트를 제작한다.
 styled-component는 ES6문법인 **Template literals를 사용**하여 스타일을 선언합니다.
@@ -228,60 +216,56 @@ function App() {
 }
 ```
 
-<br>
-
 ## 장점
 
-1.  _CSS가 중첩되지 않음_  
+#### 1. CSS가 중첩되지 않음
+
     기존 방식인 css, scss 파일을 밖에 두고 import 해오는 형식이 아닌
     컴포넌트 내부에 선언하기 때문에 css가 전역으로 중첩되지 않습니다.
 
-2.  _조건부 스타일링_  
+#### 2. 조건부 스타일링
+
     기존 방식은 className을 일일히 선언하여 조건에 맞는 스타일을 적용하였었는데,
     styled-component는 컴포넌트에게 전달된 props 값을 참조하여 조건부 스타일링이 가능합니다.
-    <div class="box_list_none">
 
-        - ###### Before
+###### Before
 
-        - ```jsx
-          .title{
-            font-size: 20px;
-            color: black;
-            &.white{
-              color:white;
-            }
-            &.red{
-              color:red;
-            }
-          }
+```jsx
+  .title{
+    font-size: 20px;
+    color: black;
+    &.white{
+      color:white;
+    }
+    &.red{
+      color:red;
+    }
+  }
 
-          return(
-            <h1 class="title red">제목</h1>
-          )
-          ```
+  return(
+    <h1 class="title red">제목</h1>
+  )
+```
 
-        - ###### After
+###### After
 
-        - ```jsx
-        const Title = styled.h1`
-          font-size: 20px;
-          color: ${props => props.color || black};
-        `
-        return(
-          <Title color="red">제목</Title>
-        )
-        ```
-        <br>
+````jsx
+  const Title = styled.h1\u0060
+    font-size: 20px;
+    color: ${props => props.color || black};
+  \u0060
+  return(
+    <Title color="red">제목</Title>
+  )
+```
 
-        </div>
-
-3) _className 생성_  
+#### 3. className 생성
    직접 className을 선언하지 않아도 자동으로 className을 만들기 때문에 네이밍에 대한 어려움을 줄일 수 있습니다.
-   ![클래스 이름](/posts/react/react-4/styled-2.png)
+   ![클래스 이름](/assets/blog/posts/react/react-4/styled-2.png)
 
 ### 단점
 
-- _컴포넌트 관리_  
+- _컴포넌트 관리_
   css를 선언할 태그는 모두 컴포넌트로 만들어야 하기 때문에 가독성이 떨어지고 관리가 어려워집니다. css를 수정할 때 마다 해당하는 컴포넌트 파일 위치를 찾아야하는 번거로움이 있습니다.
 
 <br><br><br>
@@ -290,3 +274,4 @@ function App() {
 
 - <https://edu.goorm.io/learn/lecture/16422/%EA%B0%80%EC%9E%A5-%ED%95%AB%ED%95%9C-fe-%EB%9D%BC%EC%9D%B4%EB%B8%8C%EB%9F%AC%EB%A6%AC-react-%EA%B0%80%EC%A7%80%EA%B3%A0-%EB%86%80%EC%95%84%EB%B3%B4%EA%B8%B0/>
 - <리액트를 다루는 기술 - 길벗>
+````

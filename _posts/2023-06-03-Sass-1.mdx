@@ -1,0 +1,173 @@
+---
+title: "예쁘게 꾸미자 Sass"
+category: sass
+tags: [sass, scss, css]
+date: "2023-06-03"
+coverImage: /assets/blog/cover/sass.jpg
+---
+> 사실 이전에 작성한 파일이 있는데, 내용이 너무 오래되어 리뉴얼합니다 😁
+
+# ✨ Sass 란?
+
+우리가 웹 페이지를 스타일링 하기 위해선 CSS를 사용합니다.   
+웹 페이지 제작하는데 기본 중의 기본이라 할 수 있죠!  
+
+하지만.. 쉬운일은 없다고...  
+적용하다 보면 뜻대로 안되는게 바로 CSS 이죠ㅠㅠ
+
+![css짤](/assets/blog/posts/css/sass1.jpg)
+
+<br>
+
+프로젝트 규모가 커지면 커질 수록 CSS 코드는 복잡해지고 중복이 많아집니다.  
+이러한 **반복 업무를 단순히 하고 좀 더 효율적으로 코드를 작성**하기 위하여 CSS 전처기기가 출시되기 시작했는데, 
+
+그 중 가장 유명한 전처리기가 바로 [Sass](https://sass-lang.com/)입니다.
+
+![css사용량](/assets/blog/posts/css/sass1.png)
+<p class="img_caption"><a href="https://2022.stateofcss.com/en-US/other-tools/">https://2022.stateofcss.com/en-US/other-tools/</a></p>
+<br>
+
+## Sass의 장·단점
+<div class="flex_box">
+<div class="flex_item">
+
+### 장점
+- 코드의 재사용
+- 중첩 선택자 및 변수를 사용하여 개발 시간 단축
+- CSS코드를 여러 파일로 나눠 유지보수성 향상
+</div>
+<div class="flex_item">
+
+### 단점
+- 전처리기위한 컴파일 도구 필요
+  - 컴파일을 진행 시 컴파일 속도가 늦어질 수 있음
+- Sass의 문법을 알고있어야 활용 가능
+</div>
+</div>
+
+<br>
+
+## 이외 다양한 전처리기 
+- [LESS](https://lesscss.org/)
+- [Stylus](https://stylus-lang.com/)
+- [PostCSS](https://postcss.org/)
+
+<div class="alert">
+
+######  [전처리기 성능 비교 사이트](https://csspre.com/compile/)
+
+</div> 
+
+---
+
+# ✨ Sass와 Scss의 차이
+구글링 하다보면 Sass를 치면 Scss가 나오고, Scss를 치면 Sass가 나옵니다..  
+
+Sass와 Scss 이름만 보면 알파벳 하나만 다른거 빼고 같아보이는데, 대체 뭐가 다를까요? 
+
+
+둘의 차이점은 바로 **구문**입니다.  
+이외 다른 점은 하나도 없습니다.  
+둘이 같다고 봐도 무방하죠
+
+
+<span class="point">Sass</span>는 **기존 CSS 구문을 사용하지 않지만**, 이를 보완하기 위해 나온 것이 Scss입니다.   
+<span class="point">Scss</span>에서는 기존 CSS와 같은 구문을 사용하여 **CSS구문 + Sass기능**을 사용할 수 있게 되었습니다.
+
+
+<div class="flex_box">
+<div class="flex_item">
+
+###### Sass
+```sass
+.conatiner
+  width: 100px;
+  p
+    font-size: 20px;
+```
+</div>
+
+<div class="flex_item">
+
+###### Scss
+```scss
+.conatiner{
+  width: 100px;
+  p{
+    font-size: 20px;
+  }
+}
+    
+```
+</div>
+
+</div>
+
+
+이 후 설명 내용은 모두 **Scss에 관한 내용이며, 파일의 확장자 또한** `.scss`입니다!
+
+---
+
+
+# ✨ Scss 사용방법?
+브라우저는 Scss의 문법을 알지 못하기때문에, 아무런 설치 없이 바로 Scss를 사용할 수는 없습니다.  
+앞서 말한 것과 같이 **Scss를 CSS로 변환하기 위한 컴파일 도구**가 필요합니다.    
+
+<div class="alert">
+
+###### 우리가 작성한 코드를 브라우저 언어로 변환해주는 작업을 <span class="point">컴파일</span>이라고 합니다.
+
+</div>
+
+설치없이 온라인에서 컴파일만 하고싶다면 해당 [링크](https://www.sassmeister.com/)에서 테스트할 수 있습니다.  
+하지만 프로젝트를 진행할 때에는 설치하고 진행하시는데 더욱 수월합니다~
+
+
+## [Ruby Sass](https://sass-lang.com/ruby-sass)
+2006년에 Sass가 처음 만들어졌을 때 나온 Ruby 기반의 언어입니다.    
+해당 Sass를 사용하기 위해선 Ruby의 환경이 필요합니다.   
+  
+하지만 해당 Sass는 2019년 3월 26일 이후로 **서비스 종료**되었고,  
+공식문서에서는 더이상 권장하지 않습니다.. 
+![ruby Sass](/assets/blog/posts/css/sass2.png)
+
+<br>
+
+## [LibSass(node-sass)](https://sass-lang.com/libsass)
+LibSass는 C/C++로 구현된 Sass입니다.  
+LibSass는 단순 라이브러리이기때문에 다양한 환경에서 사용하기 위한 컴파일 도구가 필요합니다.  
+그 중 **node-sass가 LibSass를 노드 환경에서 사용하기 위한 도구** 중 하나입니다.
+
+하지만!! 해당 Sass 또한 Ruby Sass와 마찬가지로 **서비스 종료**될 예정입니다ㅠㅠ
+![libSass](/assets/blog/posts/css/sass3.png)
+
+그래도 아직 LibSass를 사용하는 곳이 많기 때문에 아래 방법으로 설치가 가능합니다.
+```bash
+npm install -g node-sass
+```
+
+<br>
+
+## [Dart Sass](https://sass-lang.com/dart-sass)
+드디어 나왔습니다.. 사용 가능한 Sass  
+공식문서에서는 해당 Dart Sass 사용을 권장하고 있습니다.  
+
+기존 node-sass는 Node.js버전에 의존적이기 때문에 환경에 따라 Node.js 버전을 바꿔줘야하는 불편함이 있습니다.  
+하지만 Dart Sass는  **Node.js버전에 의존도가 높지않아 여러 환경에서 호환이 자유롭다**는 장점이 있습니다.  
+
+또한 새로 Dart Sass를 출시하면서 새로운 기능도 추가되었습니다.   
+다음 명령어를 통해 설치 가능합니다. 
+```bash
+$ npm install -g sass
+```
+
+
+
+<hr>
+
+# ✨ Reference
+- https://smartstudio.tech/node-sass-to-dart-sass/
+- https://smartstudio.tech/node-sass-to-dart-sass/
+
+

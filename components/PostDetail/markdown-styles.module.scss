@@ -166,6 +166,12 @@
   :global(.img_caption) {
     @apply text-xs -mt-2;
   }
+  :global(.flex_box) {
+    @apply gap-3 flex;
+  }
+  :global(.flex_item) {
+    @apply flex-1;
+  }
   :global(.alert) {
     @apply bg-yellow-50 py-4 pr-4 pl-12 rounded-md relative my-5;
     &:before {
@@ -181,6 +187,14 @@
       &:last-child {
         @apply mb-0;
       }
+    }
+    li{
+      &::marker {
+        @apply text-yellow-700;
+      }
+    }
+    :global(.point) {
+      @apply bg-yellow-500 text-white px-1;
     }
   }
 }

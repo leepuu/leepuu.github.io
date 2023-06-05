@@ -1,0 +1,253 @@
+---
+title: "예쁘게 꾸미자 Sass - 문법편"
+category: sass
+tags: [sass, scss, css]
+date: "2023-06-05"
+coverImage: /assets/blog/cover/sass.jpg
+---
+
+
+# ✨ 기본 작성법
+
+## 1. 중첩
+Sass의 가장 큰 자랑, 장점 바로 <span class="point">중첩</span>입니다.  
+기존 우리가 CSS를 작성할 때에는 부모에서 자식순으로 선택자를 선택하여 적용하게 되는데,   
+이는 상위선택자를 반복적으로 사용하기 때문에 불편함이 발생합니다. 
+
+하지만 Scss에서는 중첩이 가능하기 때문에 부모 선택자는 한번 선언 후 그 안에 자식 선택자들을 선언할 수 있습니다.
+
+<div class="flex_box">
+<div class="flex_item">
+
+###### scss
+```scss
+.parents{
+  width: 300px;
+  .children1{
+    width: 200px;
+  }
+  .children2{
+    width: 300px;
+  }
+}
+```
+
+</div>
+<div class="flex_item">
+
+###### css
+```css
+.parents{width: 300px;}
+.parents .children1{width: 200px;}
+.parents .children2{width: 300px;}
+```
+
+</div>
+</div>
+
+
+단순합니다.😄   
+이는 반복적인 선택자를 사용할 필요없고 누구의 부모인지, 자식인지 한 눈에 들어오기 때문에 개발시에도 매우 유용합니다. 
+
+<br>
+
+## 2. 부모 선택자 `$`
+scss에서는 위와 같이 중첩이 사용됩니다. 만약 이 때 **부모 선택자를 선택**하고 싶다면 `$`를 사용하면 됩니다.   
+`&`를 사용하면 부모 선택자를 굳이 반복할 필요 없이 바로 선언 가능합니다.   
+
+<div class="flex_box">
+<div class="flex_item">
+
+###### scss
+```scss
+.parents{
+  background: black;
+  &:hover{
+    background: red;
+  }
+  &_01{
+    background: blue;
+  }
+  .red + & {
+    background: green;
+  }
+}
+```
+
+</div>
+<div class="flex_item">
+
+###### css
+```css
+.parents{background: black;}
+.parents:hover{background: red;}
+.parents_01{background: blue;}
+.red + .parents {background: green;}
+```
+
+</div>
+
+</div>
+<div class="alert">
+
+###### `&`은 선택자의 시작 부분에서만 사용가능합니다.
+예를 들어 `span&` 같이 특정 엘리먼트 뒤에서는 사용 불가능합니다.
+
+</div>
+
+<br>
+
+## 3. 변수
+Sass에서는 `$변수명: 값` 형식을 통해 변수 선언이 가능합니다.  
+주로 color, font style 등을 선언하여 다양하게 사용합니다.  
+
+```scss
+$white: #fff;
+$font-fmaily: 'Inter', 'Noto Sans KR', sans-serif;
+```
+
+
+또한 전역 변수로도 사용할 수 있지만, 변수의 선언 위치에 따라 지역변수로도 사용 가능합니다.
+
+```css
+.wrap{
+  $bgColor: black;
+  .container{
+    background: $bgColor; // black
+  }
+}
+
+.header{
+  $bgColor: red;
+  &_inner{
+    background: $bgColor; // red
+  }
+}
+
+```
+
+<div class="alert">
+
+###### CSS 변수와 SCSS 변수의 차이점
+
+- Scss 변수는 컴파일 되면서 CSS 파일에서는 모두 사라짐
+- Scss 변수는 재할당 되어도 이전 내용이 변하지 않지만 CSS는 재할당시 이전내용도 모두 같이 변경
+- Scss의 변수명에서 `_`와 `-`은 구분하지 않음
+
+</div>
+
+<br>
+
+## 보간
+선택자나, 속성, 문자열에는 바로 사용이 불가능합니다.  
+이를 처리하기 위하여 문자 보간 (`#{}`)이라는 걸 사용하게 되는데, 아래 예시를 참고해주세요!
+```scss
+$name: point;
+$color: blue;
+$border: border;
+$size: 200;
+
+.test{
+  .#{$name}{
+    background: url('/point/#{$color}.svg');
+    #{$border}: 1px solid blue;
+    width: calc(100% - (#{size} * 1px))
+  }
+}
+
+
+```
+
+참고로 보간의 리턴값은 단순 문자열(string)입니다.   
+단위 사이에 끼워 넣는 경우 오류가 발생해도 그대로 출력하기 때문에 에러를 잡을 수 없어 단위를 곱하는 방식으로 사용하시길 바랍니다. 
+```scss
+$size: 100px;
+
+/* Bad 👎 */
+.test1{
+  width: #{$size}px;  /* 100pxpx */
+}
+
+/* Good 👍*/
+.test1{
+  width: #{$size} * 1px; /* error */
+}
+```
+
+<br>
+
+## Mixins
+Mixin은 재사용할 CSS 스타일을 정의하는 기능입니다.   
+react에서는 컴포넌트와 비슷한 기능이죠~
+
+먼저 `@mixin`을 사용해 스타일을 정의하고 `@include`를 통해서 가져옵니다.
+
+```scss
+
+@mixin bg-color{
+  background: black;
+  color: white;
+}
+
+.btn{
+  @include bg-color;
+}
+
+```
+
+변수와 같이 사용하여 아래와 같이 응용할 수 있습니다!
+
+<div class="flex_box">
+<div class="flex_item">
+
+###### scss
+
+```scss
+@mixin position($type, $left: 5px, $top){
+  position: $type;
+  left: $left, 
+  top: $top
+}
+
+.box{
+  @include position(absolute, 15px, 5px); 
+}
+
+.box1{
+  @include position(absolute, $top: 15px); 
+}
+```
+
+</div>
+<div class="flex_item">
+
+###### css
+```css
+.box{
+  position: absolute;
+  left: 15px;
+  top: 5px;
+}
+
+.box1{
+  position: absolute;
+  left: 5px;
+  top: 5px;
+}
+```
+
+</div>
+</div>
+<br>
+
+## Extend
+extend는 말그대로 확장입니다.   
+원래 속성에 더 확장하여 스타일을 선언한다고 생각하시면 될 것 같습니다.  
+
+<hr>
+
+# ✨ Reference
+- https://smartstudio.tech/node-sass-to-dart-sass/
+- https://smartstudio.tech/node-sass-to-dart-sass/
+
+

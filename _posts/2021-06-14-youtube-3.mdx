@@ -12,13 +12,15 @@ coverImage: /assets/blog/cover/youtube.jpg
 
 종류는 총 2가지로 스와이핑의 가능 유무에 따라 제작하도록 하겠습니다.
 
+---
+
 ## 1️⃣ Swiping 불가능 슬라이드
 
 ### 1. 기본 슬라이드 - 슬라이드가 전환될 때 재생 X
 
 #### `<iframe>` 태그 사용
 
-##### HTML
+###### HTML
 
 ```html
 <div class="box_area">
@@ -41,7 +43,7 @@ coverImage: /assets/blog/cover/youtube.jpg
 </div>
 ```
 
-##### JavaScript
+###### JavaScript
 
 ```javascript
 // Add Swiper
@@ -64,9 +66,11 @@ mySwiper = new Swiper(".swiper-container", {
   on <a href="https://codepen.io">CodePen</a>.
 </iframe>
 
+---
+
 #### Youtube Player API 사용
 
-##### HTML
+###### HTML
 
 ```html
 <div class="box_area">
@@ -89,7 +93,7 @@ mySwiper = new Swiper(".swiper-container", {
 </div>
 ```
 
-##### JavaScript
+###### JavaScript
 
 ```javascript
 const tag = document.createElement("script");
@@ -132,16 +136,13 @@ function onYouTubePlayerAPIReady() {
   on <a href="https://codepen.io">CodePen</a>.
 </iframe>
 
-<br><br><br><br>
-
-<hr>
-<br>
+---
 
 ### 2. 기본 슬라이드 - 슬라이드가 전환될 때 재생 O
 
 #### `<iframe>` 태그 사용
 
-##### HTML
+###### HTML
 
 ```html
 <div class="box_area">
@@ -164,7 +165,7 @@ function onYouTubePlayerAPIReady() {
 </div>
 ```
 
-##### JavaScript
+###### JavaScript
 
 ```javascript
 // Add Swiper
@@ -227,9 +228,12 @@ function callPlayer(frame_id, func, args) {
   on <a href="https://codepen.io">CodePen</a>.
 </iframe>
 
+
+---
+
 #### Youtube Player API 사용
 
-##### HTML
+###### HTML
 
 ```html
 <div class="box_area">
@@ -312,16 +316,13 @@ function slideVideo(e) {
   on <a href="https://codepen.io">CodePen</a>.
 </iframe>
 
-<br><br><br><br>
-
-<hr>
-<br>
+---
 
 ### 3. loop 슬라이드 - 슬라이드가 전환될 때 재생 X
 
 #### `<iframe>` 태그 사용
 
-##### HTML
+###### HTML
 
 ```html
 <div class="box_area">
@@ -344,7 +345,7 @@ function slideVideo(e) {
 </div>
 ```
 
-##### JavaScript
+###### JavaScript
 
 ```javascript
 // Add Swiper
@@ -368,9 +369,11 @@ mySwiper = new Swiper(".swiper-container", {
   on <a href="https://codepen.io">CodePen</a>.
 </iframe>
 
+---
+
 #### Youtube Player API 사용
 
-##### HTML
+###### HTML
 
 ```html
 <div class="box_area">
@@ -393,7 +396,7 @@ mySwiper = new Swiper(".swiper-container", {
 </div>
 ```
 
-##### JavaScript
+###### JavaScript
 
 ```javascript
 // Load the IFrame Player API
@@ -458,16 +461,13 @@ function makeRandomId() {
   on <a href="https://codepen.io">CodePen</a>.
 </iframe>
 
-<br><br><br><br>
-
-<hr>
-<br>
+---
 
 ### 4. loop 슬라이드 - 슬라이드가 전환될 때 재생 O
 
 #### `<iframe>` 태그 사용
 
-##### HTML
+###### HTML
 
 ```html
 <div class="box_area">
@@ -490,7 +490,7 @@ function makeRandomId() {
 </div>
 ```
 
-##### JavaScript
+###### JavaScript
 
 ```javascript
 let slide;
@@ -581,9 +581,11 @@ function makeRandomId() {
 </p>
 <script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
 
+---
+
 #### Youtube Player API 사용
 
-##### HTML
+###### HTML
 
 ```html
 <div class="box_area">
@@ -606,7 +608,7 @@ function makeRandomId() {
 </div>
 ```
 
-##### JavaScript
+###### JavaScript
 
 ```javascript
 // Load the IFrame Player API
